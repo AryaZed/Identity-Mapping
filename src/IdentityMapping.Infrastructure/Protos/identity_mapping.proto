@@ -1,0 +1,163 @@
+syntax = "proto3";
+
+option csharp_namespace = "IdentityMapping.Infrastructure.Grpc";
+
+package identity_mapping;
+
+// Identity Mapping Service
+service IdentityMappingService {
+  // Transform a claim from one system to another
+  rpc TransformClaim (TransformClaimRequest) returns (TransformClaimResponse);
+  
+  // Transform multiple claims at once
+  rpc TransformClaims (TransformClaimsRequest) returns (TransformClaimsResponse);
+  
+  // Transform a role from one system to another
+  rpc TransformRole (TransformRoleRequest) returns (TransformRoleResponse);
+  
+  // Transform multiple roles at once
+  rpc TransformRoles (TransformRolesRequest) returns (TransformRolesResponse);
+  
+  // Get all mapping rules for an application
+  rpc GetMappingRules (GetMappingRulesRequest) returns (GetMappingRulesResponse);
+  
+  // Create a new mapping rule
+  rpc CreateMappingRule (CreateMappingRuleRequest) returns (MappingRuleResponse);
+  
+  // Update an existing mapping rule
+  rpc UpdateMappingRule (UpdateMappingRuleRequest) returns (MappingRuleResponse);
+  
+  // Delete a mapping rule
+  rpc DeleteMappingRule (DeleteMappingRuleRequest) returns (DeleteMappingRuleResponse);
+}
+
+// Claim representation
+message Claim {
+  string type = 1;
+  string value = 2;
+}
+
+// Role is just a string
+message Role {
+  string name = 1;
+}
+
+// Context key-value pair for rule evaluation
+message ContextEntry {
+  string key = 1;
+  string value = 2;
+}
+
+// Transform a single claim
+message TransformClaimRequest {
+  string application_id = 1;
+  Claim source_claim = 2;
+  int32 direction = 3;
+  repeated ContextEntry context = 4;
+}
+
+message TransformClaimResponse {
+  Claim target_claim = 1;
+  bool success = 2;
+  string error_message = 3;
+}
+
+// Transform multiple claims
+message TransformClaimsRequest {
+  string application_id = 1;
+  repeated Claim source_claims = 2;
+  int32 direction = 3;
+  repeated ContextEntry context = 4;
+}
+
+message TransformClaimsResponse {
+  repeated Claim target_claims = 1;
+  bool success = 2;
+  string error_message = 3;
+}
+
+// Transform a single role
+message TransformRoleRequest {
+  string application_id = 1;
+  string source_role = 2;
+  int32 direction = 3;
+  repeated ContextEntry context = 4;
+}
+
+message TransformRoleResponse {
+  string target_role = 1;
+  bool success = 2;
+  string error_message = 3;
+}
+
+// Transform multiple roles
+message TransformRolesRequest {
+  string application_id = 1;
+  repeated string source_roles = 2;
+  int32 direction = 3;
+  repeated ContextEntry context = 4;
+}
+
+message TransformRolesResponse {
+  repeated string target_roles = 1;
+  bool success = 2;
+  string error_message = 3;
+}
+
+// Mapping rule representation
+message MappingRuleProto {
+  string id = 1;
+  string application_id = 2;
+  string name = 3;
+  string description = 4;
+  string condition = 5;
+  int32 rule_type = 6;
+  string source_identifier = 7;
+  string target_identifier = 8;
+  string transform_expression = 9;
+  int32 direction = 10;
+  int32 priority = 11;
+  bool is_enabled = 12;
+  string created_at = 13;
+  string updated_at = 14;
+}
+
+// Get mapping rules
+message GetMappingRulesRequest {
+  string application_id = 1;
+  int32 rule_type = 2;
+  int32 direction = 3;
+}
+
+message GetMappingRulesResponse {
+  repeated MappingRuleProto rules = 1;
+  bool success = 2;
+  string error_message = 3;
+}
+
+// Create mapping rule
+message CreateMappingRuleRequest {
+  MappingRuleProto rule = 1;
+}
+
+// Update mapping rule
+message UpdateMappingRuleRequest {
+  MappingRuleProto rule = 1;
+}
+
+// Common mapping rule response
+message MappingRuleResponse {
+  MappingRuleProto rule = 1;
+  bool success = 2;
+  string error_message = 3;
+}
+
+// Delete mapping rule
+message DeleteMappingRuleRequest {
+  string id = 1;
+}
+
+message DeleteMappingRuleResponse {
+  bool success = 1;
+  string error_message = 2;
+} 
