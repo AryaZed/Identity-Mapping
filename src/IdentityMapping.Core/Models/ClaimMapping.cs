@@ -10,32 +10,37 @@ namespace IdentityMapping.Core.Models
         /// <summary>
         /// Unique identifier for this claim mapping
         /// </summary>
-        public string Id { get; set; }
+        public string Id { get; set; } = string.Empty;
 
         /// <summary>
         /// The application ID this mapping belongs to
         /// </summary>
-        public string ApplicationId { get; set; }
+        public string SourceApplicationId { get; set; } = string.Empty;
 
         /// <summary>
         /// The claim type in the legacy application
         /// </summary>
-        public string LegacyClaimType { get; set; }
+        public string SourceClaimType { get; set; } = string.Empty;
 
         /// <summary>
         /// The claim type in the centralized identity system
         /// </summary>
-        public string CentralizedClaimType { get; set; }
+        public string TargetClaimType { get; set; } = string.Empty;
 
         /// <summary>
         /// Optional value transformation expression
         /// </summary>
-        public string ValueTransformation { get; set; }
+        public string? TransformationExpression { get; set; }
 
         /// <summary>
         /// When the claim mapping was created
         /// </summary>
         public DateTime CreatedAt { get; set; }
+
+        /// <summary>
+        /// When the claim mapping was last updated
+        /// </summary>
+        public DateTime? UpdatedAt { get; set; }
 
         /// <summary>
         /// Whether to include this claim when mapping from legacy to centralized

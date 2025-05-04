@@ -10,27 +10,37 @@ namespace IdentityMapping.Core.Models
         /// <summary>
         /// Unique identifier for this role mapping
         /// </summary>
-        public string Id { get; set; }
+        public string Id { get; set; } = string.Empty;
 
         /// <summary>
         /// The application ID this mapping belongs to
         /// </summary>
-        public string ApplicationId { get; set; }
+        public string SourceApplicationId { get; set; } = string.Empty;
+
+        /// <summary>
+        /// The application ID this mapping belongs to
+        /// </summary>
+        public string TargetApplicationId { get; set; } = string.Empty;
 
         /// <summary>
         /// The role name in the legacy application
         /// </summary>
-        public string LegacyRoleName { get; set; }
+        public string SourceRole { get; set; } = string.Empty;
 
         /// <summary>
         /// The role name in the centralized identity system
         /// </summary>
-        public string CentralizedRoleName { get; set; }
+        public string TargetRole { get; set; } = string.Empty;
 
         /// <summary>
         /// When the role mapping was created
         /// </summary>
         public DateTime CreatedAt { get; set; }
+
+        /// <summary>
+        /// When the role mapping was last updated
+        /// </summary>
+        public DateTime? UpdatedAt { get; set; }
 
         /// <summary>
         /// Description or additional information about this role mapping
